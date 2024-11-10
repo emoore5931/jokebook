@@ -14,11 +14,20 @@ function getJokesByCategory(req, res, next) {
     const category = req.query.category;
     const limit = req.query.limit;
     if (category) {
-        try {
-            res.json(model.getJokesByCategory(category));
-        } catch (err) {
-            console.error("Error while getting jokes by category: ", err.message);
-            next(err);
+        if (limit && limit > 0) {
+            try {
+                res.json(model.getJokesByCategory(category, limit));
+            } catch (err) {
+                console.error("Error while getting jokes by category with the set limit: ", err.message);
+                next(err);
+            }
+        } else {
+            try {
+                res.json(model.getJokesByCategory(category));
+            } catch (err) {
+                console.error("Error while getting jokes by category: ", err.message);
+                next(err);
+            }
         }
     } else {
         res.status(400).send("Invalid Request");

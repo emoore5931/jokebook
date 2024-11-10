@@ -6,7 +6,7 @@ const jokesController = require("../controllers/jokes-controller");
 
 router.get("/categories", jokesController.getCategories);
 
-router.get("/joke/:category/:limit?", jokesController.getJokesByCategory);
+router.get("/joke", jokesController.getJokesByCategory);
 
 router.post("/joke/new", jokesController.postNewJoke);
 

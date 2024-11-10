@@ -22,7 +22,9 @@ function getJokesByCategory(categoryId) {
 }
 
 function getJokesByCategory(categoryId, limit) {
-    //todo
+    const sql = `SELECT * FROM Jokes WHERE categoryId = ${categoryId} LIMIT ${limit}`;
+    const data = db.prepare(sql).all();
+    return data;
 }
 
 function newJoke(joke) {
