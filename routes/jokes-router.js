@@ -10,4 +10,6 @@ router.get("/joke", jokesController.getJokesByCategory);
 
 router.post("/joke/new", jokesController.postNewJoke);
 
+router.get("/joke/random", jokesController.getRandJoke);
+
 module.exports = router;

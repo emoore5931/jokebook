@@ -1,0 +1,33 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Jokebook
+        link(rel="stylesheet", href="/style.css", type="text/css")
+        script(src = "/index.js", defer)
+    body 
+        h1 Jokebook
+        div#randomJokeContainer
+            h2 Random Joke
+            p#randomJoke
+        br
+        div#allJokesContainer
+            h2 All Jokes
+            h4 Select a category to list jokes in that category
+            select#categorySelection
+            ul#jokes
+                li.joke
+        br
+        div#createNewJokeContainer
+            h2 Submit a New Joke
+            label(for = setup) Setup
+            input#setup(type="text")
+            br
+            label(for = delivery) Delivery
+            input#delivery(type="text")
+            br
+            label(for = category) Joke Category
+            select#category
+            br
+            button#submitJoke Submit Joke

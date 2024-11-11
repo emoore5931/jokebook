@@ -6,7 +6,7 @@ const db = new Database(path.resolve(__dirname, "./db/JOKES.db"));
 function Joke(setup, delivery, categoryID) {
     this.setup = setup;
     this.delivery = delivery;
-    this.categoryID = categoryID;
+    this.categoryId = categoryID;
 }
 
 function getCategories() {
@@ -16,20 +16,28 @@ function getCategories() {
 }
 
 function getJokesByCategory(categoryId) {
-    const sql = `SELECT * FROM Jokes WHERE categoryId = ${categoryId}`;
-    const data = db.prepare(sql).all();
+    const sql = "SELECT * FROM Jokes WHERE categoryId = ?";
+    const data = db.prepare(sql).all([categoryId]);
     return data;
 }
 
-function getJokesByCategory(categoryId, limit) {
-    const sql = `SELECT * FROM Jokes WHERE categoryId = ${categoryId} LIMIT ${limit}`;
-    const data = db.prepare(sql).all();
+function getLimitedJokesByCategory(categoryId, limit) {
+    const sql = `SELECT * FROM Jokes WHERE categoryId = ? LIMIT ?`;
+    const data = db.prepare(sql).all([categoryId, limit]);
     return data;
 }
 
 function newJoke(joke) {
-    const sql =  `INSERT INTO Jokes (setup, delivery, categoryID) VALUES (${joke.setup}, ${joke.delivery}, ${joke.categoryId})`;
-    db.exec(sql);
+    console.log("Adding new joke to the database...");
+    const sql = `INSERT INTO Jokes (setup, delivery, categoryID) VALUES (?, ?, ?);`;
+
+    db.prepare(sql).run([joke.setup, joke.delivery, joke.categoryId]);
+}
+
+function getRandJoke() {
+    const sql = "SELECT * FROM Jokes ORDER BY RANDOM() LIMIT 1;";
+    const data = db.prepare(sql).get();
+    return data;
 }
 
 function db_close() {
@@ -42,5 +50,7 @@ module.exports = {
     getJokesByCategory,
     newJoke,
     Joke,
-    db_close
+    db_close,
+    getLimitedJokesByCategory,
+    getRandJoke
 }

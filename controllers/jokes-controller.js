@@ -16,7 +16,7 @@ function getJokesByCategory(req, res, next) {
     if (category) {
         if (limit && limit > 0) {
             try {
-                res.json(model.getJokesByCategory(category, limit));
+                res.json(model.getLimitedJokesByCategory(category, limit));
             } catch (err) {
                 console.error("Error while getting jokes by category with the set limit: ", err.message);
                 next(err);
@@ -45,15 +45,25 @@ function postNewJoke(req, res, next) {
             res.status(200).send("Joke Creation Successful");
         } catch (error) {
             console.error("Error while creating new joke: ", error.message);
-            next(err);
+            next(error);
         }
     } else {
         res.status(400).send("Invalid Request");
     }
 }
 
+function getRandJoke(req, res, next) {
+    try {
+        res.json(model.getRandJoke());
+    } catch (err) {
+        console.error("Error fetching random joke: ", err.message);
+        next(err);
+    }
+}
+
 module.exports = {
     getCategories,
     getJokesByCategory,
-    postNewJoke
+    postNewJoke,
+    getRandJoke
 }
